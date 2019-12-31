@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">		
+			<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+			<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
+			<property name="username" value="boarduser"></property>
+			<property name="password" value="1234"></property>
+		</bean>
 		
+		<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+		</bean>
+		<!-- 사용하는 Session factory를 만든다. 
+				SqlSessionFactory의 역할
+					connection을 생성하거나 원하는 SQL을 전달하고, 결과를 리턴받는 구조
+				즉 Mybatis의 장점인 자동으로 db닫기, 반환값이 있으면 자동으로 resultset을 처리하고
+					Preparedstatment 등을 ${prop}등으로 간단하게 사용할 수 있다.-->
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"></property>
+			<!--  sqlSessionFactory 라는 이름으로 SqlSessionFactoryBean타입의 인스턴스를 만들고, 그 안에 dataSource를 주입!-->
+		</bean>
+		<!-- Namespaces에서 context와 mybatis를 체크! -->
+		<mybatis-spring:scan base-package="com.jwj.dao"/>
+		<!-- interface와 dao가 있는 패키지가 서로 다르지만 이름이 같기에 같이 끌어옴
+		그래서 src/main/java 와 src/main/resoures 에 각각 패키지가 com.jwj.dao로 들어있어도 둘다 스캔함 
+		sqlSessionFactory에서 Mybatis 와 Spring을 연동 시키기 위한 인터페이스를 스캔함-->
+		
+		<context:component-scan base-package="com.jwj.service"/>
 </beans>
