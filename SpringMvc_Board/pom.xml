@@ -4,15 +4,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.jwj</groupId>
 	<artifactId>controller</artifactId>
-	<name>SpringMvc_Board</name>
+	<name>SpringMvc-Board</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.6</java-version>
-		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
-		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<java-version>1.8</java-version><!-- 수정 -->
+		<org.springframework-version>5.2.1.RELEASE</org.springframework-version><!-- 수정 -->
+		<org.aspectj-version>1.9.4</org.aspectj-version><!-- 수정 -->
+		<org.slf4j-version>1.7.25</org.slf4j-version><!-- 수정 -->
 	</properties>
+	
+	<!-- ojdbc6을 제공하는 사설 저장소 등록 -->
+	<repositories>
+		<repository>
+				<id>Oracle</id>
+				<name>ORACLE JDBC Repository</name>
+				<url>https://code.lds.org/nexus/content/groups/main-repo</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -61,7 +70,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>1.2.16</version><!-- 수정 -->
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -93,8 +102,8 @@
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>javax.servlet-api</artifactId><!-- 수정 -->
+			<version>3.1.0</version><!-- 수정 -->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -113,10 +122,64 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.7</version>
+			<version>4.12</version><!-- 수정 -->
 			<scope>test</scope>
 		</dependency>        
-	</dependencies>
+	
+	<!-- 추가 라이브러리 설정 -->
+		<!-- DB관련 라이브러리 -->
+			<!-- Mybatis 라이브러리 쿼리문을 XML에서 사용할 수 있도록 함.-->
+			
+			<!-- DB 로그용 라이브러리 추가 connection 수립 등의 로그를 찍어줌-->
+			<dependency>
+			    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+			    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+			    <version>1.16</version>
+			</dependency>
+			
+			<!-- ojdbc6 -->
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>11.2.0.3</version>
+			</dependency>
+			
+			<!-- connection 유지를 위한 Hikari 라이브러리 -->
+				<dependency>
+				    <groupId>com.zaxxer</groupId>
+				    <artifactId>HikariCP</artifactId>
+				    <version>3.3.1</version>
+				</dependency>
+			
+			<!-- JDBC 라이브러리 추가 -->
+				<dependency>
+				    <groupId>org.springframework</groupId>
+				    <artifactId>spring-jdbc</artifactId>
+				    <version>${org.springframework-version}</version>
+				</dependency>
+			<!-- 트랜잭션 라이브러리 추가 -->
+				<dependency>
+				    <groupId>org.springframework</groupId>
+				    <artifactId>spring-tx</artifactId>
+				    <version>${org.springframework-version}</version>
+				</dependency>
+		
+		<!-- Spring test 라이브러리 추가 -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+				
+		<!-- lombok  C - 사용자 - .m2 - lombok.jar에서 install 해주기-->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.0</version>
+		    <scope>provided</scope>
+		</dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -136,10 +199,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.8.1</version><!-- 수정 -->
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source><!-- 수정 -->
+                    <target>1.8</target><!-- 수정 -->
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
