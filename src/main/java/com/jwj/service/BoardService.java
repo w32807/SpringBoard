@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jwj.dao.BoardDao;
 import com.jwj.dto.BoardDto;
+import com.jwj.util.Paging;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -38,16 +39,25 @@ public class BoardService {
 		mav.addObject("bList", bList);//bList라는 이름으로 bList 데이터를 넣겠다.
 	//------추가분-----------------------------------------------------------------------------------------
 		mav.addObject("paging",getPaging(num));
-		
 	//-----------------------------------------------------------------------------------------------------
 		mav.setViewName("boardList");//mav를 보낼 jsp파일의 이름
 		return mav;//데이터를 담은 mav가 controller쪽으로 return 된다.
 	}
+
 	
+	//------추가분-----------------------------------------------------------------------------------------
 	private Object getPaging(int num) {
-		int maxNum;
-		return null;
+		//전체 글 개수 구하기(from DB)
+		int maxNum = bDao.getBoardCount();
+		int listCount = 10;//페이지 당 글 갯수
+		int pageCount = 2; //한 그룹당 페이지 갯수
+		String listName = "list";//BoardController의 RequestMapping 과 똑같아야 함.
+		Paging paging = new Paging(maxNum, num, listCount, pageCount, listName);
+		String pagingHtml = paging.makeHtmlPaging();		
+		
+		return pagingHtml;
 	}
+	//-----------------------------------------------------------------------------------------------------
 
 	
 	

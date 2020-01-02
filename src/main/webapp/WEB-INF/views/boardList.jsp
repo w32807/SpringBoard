@@ -40,7 +40,6 @@
 		
 		<div>
 			${paging}
-		
 		</div>
 	</center>
 

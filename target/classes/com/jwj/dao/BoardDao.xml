@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- BoardDao interface와 똑같은 이름으로 xml파일을 만들가 -->
+<!-- BoardDao interface와 똑같은 이름으로 xml파일을 만들기 -->
 
 <!-- 경로 : src/main/resources/com.jwj.dao/BoardDao.xml -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -31,10 +31,9 @@
 			SELECT * FROM BLIST_1
 			WHERE BNUM=#{bnum}
 	</select>
-	
-	
-	
-	
+	<select id="getBoardCount" resultType="Integer" >
+			SELECT COUNT(*) FROM BLIST_1
+	</select>
 	
 </mapper>
 
