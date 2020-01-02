@@ -37,6 +37,11 @@
 				</tr>
 			</c:forEach>		
 		</table>
+		
+		<div>
+			${paging}
+		
+		</div>
 	</center>
 
 

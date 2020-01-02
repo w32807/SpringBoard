@@ -36,10 +36,20 @@ public class BoardService {
 		
 		List<BoardDto> bList = bDao.getList(num);//페이지 번호를 가져오고, 그 번호에 해당하는 List를 가져온다.
 		mav.addObject("bList", bList);//bList라는 이름으로 bList 데이터를 넣겠다.
+	//------추가분-----------------------------------------------------------------------------------------
+		mav.addObject("paging",getPaging(num));
+		
+	//-----------------------------------------------------------------------------------------------------
 		mav.setViewName("boardList");//mav를 보낼 jsp파일의 이름
-				
 		return mav;//데이터를 담은 mav가 controller쪽으로 return 된다.
 	}
+	
+	private Object getPaging(int num) {
+		int maxNum;
+		return null;
+	}
+
+	
 	
 	public ModelAndView getBoardContents(Integer bnum) {
 		mav = new ModelAndView();//지역 변수
@@ -51,13 +61,6 @@ public class BoardService {
 		mav.setViewName("boardContents");
 		return mav;
 	}
-	
-	
-	
-	
-	
-	
-	
 }
 
 
