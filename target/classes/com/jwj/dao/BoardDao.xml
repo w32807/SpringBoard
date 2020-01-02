@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BoardDao interface와 똑같은 이름으로 xml파일을 만들가 -->
+
+<!-- 경로 : src/main/resources/com.jwj.dao/BoardDao.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--  mybatis를 사용하기 위해, 인터페이스 안에 있는 메소드(insert 등의 메소드)와 mybatis안의 메소드와 연결 해 주는 역할이 mapper -->
+<!--  SQLSessionFactory를 이용해, 코드를 직접 작성 할 수 도 있지만, 더욱 편하게 SQL을 어떻게 처리할 지 별도의 설정을 해주고
+		자동으로 처리되는 방식을 쓰는 것이 mapper.
+		Mapper는 XML(여기서는 src/main/java/BoardDao.xml) + 인터페이스 (여기서는 src/main/resources/BoardDao.java) + annotation 
+		이 3가지를 합쳐서 mapper를 작성 할 수 있다.-->
+
+<mapper namespace = "com.jwj.dao.BoardDao"><!-- interface가 있는 package와 class를 써준다 -->
+
+	<select id = "getList" resultType="com.jwj.dto.BoardDto">
+	<!-- id는 인터페이스에서 사용할 변수이름, resultType은 해당 데이터를 넣을 Dto를 써줌 
+			resultType의 반환 형태는 String,int 등의 데이터 1개가 됨. 인터페이스에서 쓰는 형태는 list이지만,
+			가져오는 데이터 값은 묶음이 아닌 하나하나의 데이터로 취급. 즉 가져오는 데이터가 1개이면 그 형태이고 가져올 때는 list로 mybatis가 보내준다-->
+	<![CDATA[
+			SELECT * FROM BLIST_1
+			WHERE RONUM>=#{pageNum}*10-9
+			AND RONUM<=#{pageNum}*10
+	]]><!-- xml 태그에 걸려, 특수문자가 처리가 안되는데, 특수문자를 써주고 싶을 때  <![CDATA[]]> 이 태그를 쓰면 그냥 문자열로 인식한다-->
+		<!-- 여기서, 여러번 쓰이는 *가 의미가 다른데, mybatis에서 헷갈리지 않게 하기위해  <![CDATA[]]> 를 써준다. -->
+		<!-- mybatis에서는 $ - 문자열, # - 숫자로, EL처럼 쓸 수 있다. -->
+		<!-- page가 1페이지면, 게시글을 1번부터 10번까지 가져오도록 함 -->
+	</select>
+	
+	<select id="getContents"  parameterType="Integer" resultType="com.jwj.dto.BoardDto" >
+	<!-- parameterType bnum이라는 integer가 들어옴 - 생략 가능!! 위에는 생략 가능-->
+		<!--  <![CDATA[ 를 안써도 되는 이유..?? 생각해보기-->
+			SELECT * FROM BLIST_1
+			WHERE BNUM=#{bnum}
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
