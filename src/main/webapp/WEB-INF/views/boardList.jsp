@@ -14,6 +14,15 @@
 	}
 
 </style>
+<script type="text/javascript">
+		window.onload = function() {//이 페이지가 실행 되면, 이 함수를 실행해라
+		
+			var chk = ${check};
+			if(chk == 2){
+				alert("글 등록 성공");
+			}
+		}
+</script>
 </head>
 <body>
 	<center>
@@ -41,6 +50,9 @@
 		<div>
 			${paging}
 		</div>
+		<p>
+		<button onclick="location.href='./writeFrm'">글쓰기</button>
+		</p>
 	</center>
 
 

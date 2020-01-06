@@ -20,6 +20,15 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<!-- commons-io, commons-fileupload를 스프링에서 사용하기위해서 MultipartResolver 가 있는데 그 설정을 하자 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+		<beans:property name="maxUploadSize" value="10000000"/><!-- byte 단위로 10mb -->
+		<beans:property name="maxInMemorySize" value="10000000"/><!-- 파일 당 메모리에 적재 될 상한 -->
+	</beans:bean>
+	
+	
 	<context:component-scan base-package="com.jwj.controller" />
 	
 	

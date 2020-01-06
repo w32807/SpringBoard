@@ -16,6 +16,15 @@ public interface BoardDao {
 	public int getBoardCount();
 	//** Mybatis에서는 매개 변수를 1개밖에 전달 못한다. - Mybatis interface에서 매개변수를 1개밖에 못 받는다는 얘기.
 	//그래서 여러개를 전달하고 싶을 때는, Map을 이용하여 Map 1개를 전달한다.
+	
+	//게시글 등의 내용을 BoardDto 인스턴스에 넣어 DB에 입력 할 메소드
+	//여기서 메소드는 데이터를 받아서 가져오는게 아니라 데이터를 담아서 DB 쪽으로 넘기는 역할 
+	//insert가 잘 처리되면 true 값이 넘어온다. - Mybatis가 알아서 잘 처리해줌.
+	public boolean boardInsert(BoardDto board);
+	//true는 잘 넘어오는데 false가 넘어오면 예외처리가 된다.
+	
+	public boolean fileInsert(Map<String, String> fmap);
+	//파일들의 이름이 저장 된 map을 매개변수로 받음
 }
 
 
