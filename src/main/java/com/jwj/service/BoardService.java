@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jwj.dao.BoardDao;
+import com.jwj.dto.BfileDto;
 import com.jwj.dto.BoardDto;
 import com.jwj.util.Paging;
 
@@ -74,9 +75,14 @@ public class BoardService {
 		BoardDto board = bDao.getContents(bnum);
 		
 		//파일 목록불러오는 처리 ...
+		//해당 번호의 파일을 불러오기.
+		List<BfileDto> bfList = bDao.getBfList(bnum);
+		
 		//댓글 불러오는 처리...
 		mav.addObject("board", board);
+		mav.addObject("bfList", bfList);
 		mav.setViewName("boardContents");
+		
 		return mav;
 	}
 	

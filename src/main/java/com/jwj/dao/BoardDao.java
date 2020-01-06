@@ -2,6 +2,7 @@ package com.jwj.dao;
 
 import java.util.*;
 
+import com.jwj.dto.BfileDto;
 import com.jwj.dto.BoardDto;
 
 //경로 : src/main/java/com.jwj.dao/BoardDao.java
@@ -25,6 +26,9 @@ public interface BoardDao {
 	
 	public boolean fileInsert(Map<String, String> fmap);
 	//파일들의 이름이 저장 된 map을 매개변수로 받음
+	
+	public List<BfileDto> getBfList(Integer bnum);
+	//파일이 여러 개일 경우도 있으니, List로 잡아주자
 }
 
 

@@ -55,6 +55,9 @@
 		<insert id="fileInsert" parameterType="HashMap">
 			INSERT INTO BF VALUES(BF_SEQ.NEXTVAL, #{bnum}, #{oriFileName}, #{sysFileName})
 		</insert>
+		<select id="getBfList" parameterType="Integer" resultType="com.jwj.dto.BfileDto">
+			SELECT * FROM BF WHERE BF_BNUM = #{bnum} 
+		</select>
 </mapper>
 
 
