@@ -7,9 +7,9 @@
 	<title>스프링 게시판 홈</title>
 	 <script type="text/javascript">
       		window.onload = function() {//이 페이지가 실행 되면, 이 함수를 실행해라
-				var chk = "${check}"";
+				var chk = "${check}";
 				if(chk != ""){
-					alert("chk");
+					alert(chk);
 					location.reload(true);//화면을 다시 한번 불러오면서 check를 리셋함 
 				}
 			}
@@ -18,17 +18,17 @@
 <body>
 	<center>
 	<h2>	회원제 게시판 </h2><hr>
-		<form action="" method="post">
+		<form action="login" method="post">
 			<table border="1">
 					<tr>
 						<td colspan="2" align="center" bgcolor="skyblue">로그인</td>					
 					</tr>
 					<tr>
-						<td><input type="text" name="m_id"  placeholder="아이디" > </td>
+						<td><input type="text" name="m_id"  placeholder="아이디"  required="required"> </td>
 						<td rowspan="2"><input type="submit" value="로그인" ></td>					
 					</tr>
 					<tr>
-						<td><input type="password" name="m_pwd" placeholder="비밀번호" > </td>					
+						<td><input type="password" name="m_pwd" placeholder="비밀번호" required="required"> </td>					
 					</tr>
 					<tr>
 						<td colspan="2" align="center" bgcolor="skyblue" >JIP Board</td>					
@@ -39,16 +39,8 @@
 																		<!-- a태그의 href form의 action과 주소 차이 확인하기 -->				
 					</tr>			
 					</tr>
-			
-			
-			
-			
 			</table>
-		
-		
 		</form>	
-	
-	
 	<a href="board/list">게시판 목록 가기</a></body>
 	
 	</center>

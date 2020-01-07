@@ -23,7 +23,6 @@
 </head>
 <body>
 	<center>
-
 		<h2>회원 가입</h2>
 		<hr>
 		<form name="joinFrm" action="memberInsert" method="post"

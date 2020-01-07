@@ -39,63 +39,36 @@
 		<h3>글쓰기</h3>
 		<hr>
 		<form action="boardWrite" method="post" enctype="multipart/form-data">
-
-			<table>
-
+			<input type="hidden" name="bid" value="${mb.m_id}">
+					<table>
+				
 				<tr>
-
-					<th>작성자</th>
-
-					<td><input type="text" name="bid" required></td>
-
-				</tr>
-
-				<tr>
-
 					<th>제목</th>
-
 					<td><input type="text" name="btitle" required></td>
-
 				</tr>
-
 				<tr>
-
 					<th>내용</th>
-
 					<td><textarea name="bcontents" rows="20">
-
   </textarea></td>
-
-				</tr>
-
+  				</tr>
 				<tr>
-
 					<th>파일첨부</th>
-
 					<td><input type="file" name="files" id="files"
-						onchange="fileChk(this)" multiple="multiple" >
+  						onchange="fileChk(this)" multiple="multiple" >
 						<input type="file" name="files" id="files"
 						onchange="fileChk(this)" multiple="multiple" >
 						<!-- 파일에 뭔가 들어가면, onchange라는 이벤트가 발생 되고..그 때 fileChk(this)라는 함수를 실행해라. 
 								this의 의미는 여기 안에 있는 fileChk를 가리킴-->
 						 <input type="hidden" 	id="filecheck" value="0" name="fileCheck"></td>
-
 				</tr>
-
 				<tr>
-
 					<td colspan="2" align="center"><input type="submit"
 						value="글작성"> <input type="reset" value="취소"> <input
 						type="button" value="돌아가기" onclick="location.href='./list'">
-
 					</td>
-
 				</tr>
-
 			</table>
-
 		</form>
-
 	</center>
 </body>
 <script src ="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -7,6 +7,23 @@
 		VALUES (#{m_id},#{m_pwd},#{m_name},#{m_birth},#{m_addr},#{m_phone},DEFAULT)
 	</insert>
 
+	<select id="getSecurityPwd" parameterType="String" resultType="String">
+		SELECT M_PWD FROM M WHERE M_ID=#{id}
+	</select>
+	
+	<select id="getMemberInfo" parameterType="String" resultType="com.jwj.dto.MemberDto">
+		SELECT * FROM MINFO WHERE M_ID=#{id}<!-- 기존의 정보들을 모아 따로 보여주고 싶은 경우는 뷰를 만들면 편하다. -->
+	</select>
 
 
 </mapper>
+
+
+
+
+
+
+
+
+
+

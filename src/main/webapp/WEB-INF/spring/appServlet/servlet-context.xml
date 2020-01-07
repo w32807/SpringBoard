@@ -29,6 +29,26 @@
 	</beans:bean>
 	
 	
+	<!-- 인터셉트를 하지않을 예외 uri 처리 -->
+	<interceptors>
+			<interceptor>
+				<mapping path="/**"/>
+				<!-- 인터셉트를 모든 uri에 대해 적용한다 -->
+				<!-- 모든 요청이 controll로 가기전에 가로챈다 -->
+				
+				<!-- 제외 할 uri 지정하기 -->
+				<exclude-mapping path="/"/>
+				<exclude-mapping path="/joinFrm"/>
+				<exclude-mapping path="/login"/>
+				<exclude-mapping path="/memberInsert"/>
+				
+				<!-- 인터셉터가 될 때 처리할 클래스 선언 -->
+				<beans:bean class="com.jwj.util.SessionInterceptor"/>
+				
+			
+			</interceptor>
+	</interceptors>
+	
 	<context:component-scan base-package="com.jwj.controller" />
 	
 	

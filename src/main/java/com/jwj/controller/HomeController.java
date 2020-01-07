@@ -38,18 +38,37 @@ public class HomeController {
 		log.warn("home()");
 		return "home";
 	}
+	
 	@GetMapping("joinFrm")
 	public String joinFrm() {
 		log.warn("joinFrm()");
 		
 		return "joinFrm";
 	}
+	
 	@PostMapping("memberInsert")
 	public ModelAndView memberInsert(MemberDto member, RedirectAttributes rttr) {
-		
-		
+		mav = mserb.memberInsert(member, rttr);
+		log.warn("memberInsert()");
+		return mav;
+	}
+	
+	@PostMapping("login")
+	public ModelAndView loginProc(MemberDto member, RedirectAttributes rttr) {
+		mav = mserb.loginProc(member, rttr);
+		log.warn("loginProc()");
 		
 		return mav;
+	}
+	
+	@GetMapping("logout")
+	public String logout() {
+
+		session.invalidate();
+		//세션에 저장된 모든 정보 삭제		
+		//근데 얘는 일관성에 위배 됨 왜??
+		
+		return "home";
 	}
 	
 	
