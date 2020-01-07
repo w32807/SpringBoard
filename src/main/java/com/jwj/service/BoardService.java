@@ -151,7 +151,7 @@ public class BoardService {
 			Iterator<String> files = mulit.getFileNames();
 			//multi객체 안에 있는 파일의 이름을 꺼내와서 Iterator에 저장
 			//파일은 순서대로 이름만 배열로써 Iterator에 저장된다
-			
+		
 			//실제 파일명과 저장 파일명을 함께 관리.(MAP을 이용하자) - Mybatis에서 매개변수를 1개 밖에 못 받기 때문에 map을 이용
 			Map<String, String> fmap = new HashMap<String, String>();
 			//Mybatis에서 map을 인터페이스로 받기 때문에 이렇게 선언하자.
@@ -173,7 +173,7 @@ public class BoardService {
 			
 			while (files.hasNext()) {//다음에 파일이 있다면.. iterator의 속성
 				String fileName = files.next();//파일 이름만 가져옴
-				
+				log.info(fileName);
 				MultipartFile mf = mulit.getFile(fileName);//첫번 째 파일 이름으로 그 파일을 가져옴
 				String oriName = mf.getOriginalFilename();//그 파일의 실제 이름을 가져옴
 				fmap.put("oriFileName", oriName);//map에 실제 파일명을 저장(확장자는 이미 있으므로 따로 확장자 처리는 안 해도 된다)
@@ -205,11 +205,12 @@ public class BoardService {
 				}
 			}
 		
-		return fResult;
+			return fResult;
 		
-		//파일이 들어갔는지 직접 확인.
-		//workSpace > .metadata > .plugins > org.eclipse.wst.server.core > temp0 > wtpwebapps > 내 프로젝트 명 > resources > 생성된 파일
-		//DB에서는 데이터 부분 화면에서 새로고침해야 한다.
+			//파일이 들어갔는지 직접 확인.
+			//workSpace > .metadata > .plugins > org.eclipse.wst.server.core > temp0 > wtpwebapps > 내 프로젝트 명 > resources > 생성된 파일
+			//DB에서는 데이터 부분 화면에서 새로고침해야 한다.
+			
 	}
 }//class의 끝
 

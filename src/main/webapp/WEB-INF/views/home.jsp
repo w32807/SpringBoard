@@ -5,12 +5,52 @@
 <html>
 <head>
 	<title>스프링 게시판 홈</title>
+	 <script type="text/javascript">
+      		window.onload = function() {//이 페이지가 실행 되면, 이 함수를 실행해라
+				var chk = "${check}"";
+				if(chk != ""){
+					alert("chk");
+					location.reload(true);//화면을 다시 한번 불러오면서 check를 리셋함 
+				}
+			}
+      </script>
 </head>
 <body>
-<h1>
-	처음 페이지 입니다.  
-</h1>
-
-<P> 로그인과 회원가입 처리를 여기서 합니다. </P>
-<a href="board/list">게시판 목록 가기</a></body>
+	<center>
+	<h2>	회원제 게시판 </h2><hr>
+		<form action="" method="post">
+			<table border="1">
+					<tr>
+						<td colspan="2" align="center" bgcolor="skyblue">로그인</td>					
+					</tr>
+					<tr>
+						<td><input type="text" name="m_id"  placeholder="아이디" > </td>
+						<td rowspan="2"><input type="submit" value="로그인" ></td>					
+					</tr>
+					<tr>
+						<td><input type="password" name="m_pwd" placeholder="비밀번호" > </td>					
+					</tr>
+					<tr>
+						<td colspan="2" align="center" bgcolor="skyblue" >JIP Board</td>					
+					</tr>
+					<tr>
+					<tr>
+						<td colspan="2" align="center" ><a href="./joinFrm">회원가입</a></td>	
+																		<!-- a태그의 href form의 action과 주소 차이 확인하기 -->				
+					</tr>			
+					</tr>
+			
+			
+			
+			
+			</table>
+		
+		
+		</form>	
+	
+	
+	<a href="board/list">게시판 목록 가기</a></body>
+	
+	</center>
+</body>
 </html>
