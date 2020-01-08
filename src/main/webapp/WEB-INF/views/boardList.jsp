@@ -23,24 +23,19 @@
 				}
 			}
 </script>
- <script type="text/javascript">
-      		window.onload = function() {//이 페이지가 실행 되면, 이 함수를 실행해라
-				var chk = ${check};
-				if(chk == 2){
-					alert("글 등록 성공");
-					location.reload(true);//화면을 다시 한번 불러오면서 check를 리셋함 
-				}
-			}
-</script>
- <script type="text/javascript">
-	 	window.history.forward();
-	 function noBack(){
-		 	window.history.forward();
-		 }
+<script type="text/javascript">
+         window.onload = function(){
+            var chk = ${check};
+            
+            if(chk == 2){
+               alert("글 등록 성공!");
+               location.reload(true);
+            }
+         }
 </script>
 
 </head>
-<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">	
+<body>	
 	<center>
 		<h3>게시판 리스트</h3><hr>
 		<div style="width: 600px; ">

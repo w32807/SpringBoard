@@ -29,6 +29,10 @@ public interface BoardDao {
 	
 	public List<BfileDto> getBfList(Integer bnum);
 	//파일이 여러 개일 경우도 있으니, List로 잡아주자
+	
+	public String getOriName(String sysFileName);
+	//다운로드를 위한 original Name을 얻어오기 위한 메소드
+	// 겹치지 않는 sysFileName으로 original name을 찾아온다.
 }
 
 

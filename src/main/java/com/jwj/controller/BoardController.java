@@ -1,5 +1,8 @@
 package com.jwj.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.web.ModelAndViewAssert;
@@ -66,6 +69,15 @@ public class BoardController {
 		return mav;
 	}
 	
+	
+	
+	//첨부파일 다운로드 처리를 위한 메소드
+	@GetMapping("/download")
+	public void fileDownload(String sysFileName, HttpServletRequest req ,HttpServletResponse resp) {
+		//form에서 데이터가 넘어올 때, bean과 같은 이름이 있으면 거기에 넣어주고
+		// 아니라면 그냥 그 이름대로 데이터가 넘어온다.
+		bServ.fileDown(sysFileName, req, resp);
+	}
 	
 	
 	

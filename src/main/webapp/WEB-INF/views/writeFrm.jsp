@@ -55,8 +55,6 @@
 					<th>파일첨부</th>
 					<td><input type="file" name="files" id="files"
   						onchange="fileChk(this)" multiple="multiple" >
-						<input type="file" name="files" id="files"
-						onchange="fileChk(this)" multiple="multiple" >
 						<!-- 파일에 뭔가 들어가면, onchange라는 이벤트가 발생 되고..그 때 fileChk(this)라는 함수를 실행해라. 
 								this의 의미는 여기 안에 있는 fileChk를 가리킴-->
 						 <input type="hidden" 	id="filecheck" value="0" name="fileCheck"></td>

@@ -1,11 +1,18 @@
 package com.jwj.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -132,11 +139,11 @@ public class BoardService {
 	
 	
 	//파일 처리 메소드
-	public boolean fileup(MultipartHttpServletRequest mulit, int bnum) {
+	public boolean fileup(MultipartHttpServletRequest multi, int bnum) {
 		
 			// 저장 공간의 물리적 경로 구하기
 			//1) 절대 경로 구하기
-			String path = mulit.getSession().getServletContext().getRealPath("/");
+			String path = multi.getSession().getServletContext().getRealPath("/");
 				// /인 절대 경로를 구하자.
 			path += "resources/upload/";//upload폴더에 저장하자.
 			log.info(path);
@@ -146,18 +153,14 @@ public class BoardService {
 				dir.mkdir();//directory를 만들자(upload폴더 생성), 위의 path에 경로를 저장했기때문에 없으면 upload를 만든다
 								 //servlet-context에서 resources경로를 가지고 있는 애들은 다 resources로 보내주는 태그가 있다.
 			}
-			//2)multi에서 파일 꺼내오기
-			//   파일 업로드 2개 이상에 대한 처리
-			Iterator<String> files = mulit.getFileNames();
-			//multi객체 안에 있는 파일의 이름을 꺼내와서 Iterator에 저장
-			//파일은 순서대로 이름만 배열로써 Iterator에 저장된다
-		
+			
 			//실제 파일명과 저장 파일명을 함께 관리.(MAP을 이용하자) - Mybatis에서 매개변수를 1개 밖에 못 받기 때문에 map을 이용
 			Map<String, String> fmap = new HashMap<String, String>();
 			//Mybatis에서 map을 인터페이스로 받기 때문에 이렇게 선언하자.
 			//앞의 String이 key이며 뒤의 String이 value이다. (key는 중복되면 안됨)
 			//key 값으로 value를 찾을 것임.
-			
+			boolean fResult = false;//각각의 분기에 따른 return값을 주기 위해 선언한 변수
+
 			
 			//저장할 때 3가지가 들어간다.
 			//DB의 BOARDFILE 테이블에는 BF_NUM(순서 번호), BF_BNUM(파일이 속한 게시글 번호),
@@ -169,12 +172,18 @@ public class BoardService {
 			//첫번째로 파일이 속한 게시글의 번호를 저장
 			//map이 문자만 저장하도록 만들었기 때문에 게시글 번호를 문자열로 변환하여 저장
 			
-			boolean fResult = false;//각각의 분기에 따른 return값을 주기 위해 선언한 변수
+			//   파일 업로드 2개 이상에 대한 처리
+			Iterator<String> files = multi.getFileNames();
+			//multi객체 안에 있는 파일의 이름을 꺼내와서 Iterator에 저장
+			//파일은 순서대로 이름만 배열로써 Iterator에 저장된다
+			//form에서 input file 태그 자체가 Iterator 한 칸에 들어간다.
+			//즉 파일을 업로드하는 input태그 1개 당, Iterator 한 칸이다.
+				
 			
-			while (files.hasNext()) {//다음에 파일이 있다면.. iterator의 속성
+			/*while (files.hasNext()) {//다음에 파일이 있다면.. iterator의 속성
 				String fileName = files.next();//파일 이름만 가져옴
 				log.info(fileName);
-				MultipartFile mf = mulit.getFile(fileName);//첫번 째 파일 이름으로 그 파일을 가져옴
+				MultipartFile mf = multi.getFile(fileName);//첫번 째 파일 이름으로 그 파일을 가져옴
 				String oriName = mf.getOriginalFilename();//그 파일의 실제 이름을 가져옴
 				fmap.put("oriFileName", oriName);//map에 실제 파일명을 저장(확장자는 이미 있으므로 따로 확장자 처리는 안 해도 된다)
 				String sysName = System.currentTimeMillis() + "." + oriName.substring(oriName.lastIndexOf(".")+1);
@@ -182,6 +191,7 @@ public class BoardService {
 				//oriName.lastIndexOf(".")가 .의 위치를 나타냄.
 				//substring은 해당 번호부터 뒤의 문자열을 잘라 가져오겠다.
 				fmap.put("sysFileName", sysName);
+				
 				//사용자는 originalName을 보고, 파일을 찾아 올 때는 originalName로 sysfileName을 찾아서 그 파일에 접근. 
 				
 				//여기까지가 DB에 저장할 3가지 정보를 처리함.
@@ -203,14 +213,91 @@ public class BoardService {
 				}catch (IOException e) {
 					fResult = false;
 				}
+			}*/
+
+			List<MultipartFile> fList = multi.getFiles("files");
+			//파일의 이름들 만이 아닌, 파일들 자체를 저장하는 List를 선언
+
+			for(int i = 0; i < fList.size(); i++) {
+				//파일 메모리에 저장
+				MultipartFile mf = fList.get(i);
+				String oriName = mf.getOriginalFilename();
+				fmap.put("oriFileName", oriName);
+				String sysName = System.currentTimeMillis()	+ "."	+ oriName.substring(oriName.lastIndexOf(".")+1);
+				fmap.put("sysFileName", sysName);
+				
+				try {
+					mf.transferTo(new File(path+sysName));
+					fResult = bDao.fileInsert(fmap);
+				}catch (IOException e) {
+					e.printStackTrace();
+					fResult = false;
+				}
 			}
-		
 			return fResult;
 		
 			//파일이 들어갔는지 직접 확인.
 			//workSpace > .metadata > .plugins > org.eclipse.wst.server.core > temp0 > wtpwebapps > 내 프로젝트 명 > resources > 생성된 파일
 			//DB에서는 데이터 부분 화면에서 새로고침해야 한다.
 			
+			
+			
+			
+	}
+
+	//파일 다운로드 서비스
+	public void fileDown(String sysFileName, HttpServletRequest req, HttpServletResponse resp) {
+		//파일을 열어, 그 안의 바이너리 데이터를 다 가져와서 디스크에 새로운 파일을 만들어 그 곳에 담는 작업.
+		// 다운로드도, 서버쪽의 파일을 다 열어 바이너리 데이터를 가져와서 사용자 쪽에 파일을 만들어 그 곳에 저장
+		
+		//서버의 파일 위치를 얻자.
+		String path = req.getSession().getServletContext().getRealPath("/") + "resources/upload/";
+		log.warn(path);
+		
+		String oriName = bDao.getOriName(sysFileName);
+		path += sysFileName;
+		log.warn(path);
+		log.warn(oriName);
+		InputStream is = null;// 서버 컴퓨터 안에 저장된 파일을 읽어오는 것
+		OutputStream os = null;// 파일을 사용자 컴퓨터로 전송하기 위한 것
+		
+		try {
+			// 파일명의 한글 깨짐 방지
+			String dFileName = URLEncoder.encode(oriName, "UTF-8");
+			log.warn(dFileName);
+			// 파일 객체 생성
+			File file = new File(path);
+			is = new FileInputStream(file);
+			
+			//응답 객체 (resp)의 헤더 설정
+			//파일 전송용 contentType 설정
+			resp.setContentType("application/octet-stream");
+			resp.setHeader("content-Disposition", "attachment; filename=\"" + dFileName +"\"");
+			//attachment; filename=\파일명.txt"\가 됨
+			
+			//응답 객체(resp)를 통해서 파일 전송
+			os = resp.getOutputStream();
+			
+			//전송하기
+			byte[] buffer = new byte[1024];//파일의 데이터를 buffer에 넣음
+			int length;
+			while((length = is.read(buffer)) != -1) {//read를 했는데 데이터가 없으면 -1이 됨
+				os.write(buffer,0,length);//버퍼 시작부터, 길이만큼 outputStream으로 읽어옴
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				os.flush();//OutStream에 데이터가 남아있으면 그 데이터를 다 보냄
+				os.close();
+				is.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }//class의 끝
 

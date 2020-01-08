@@ -58,6 +58,11 @@
 		<select id="getBfList" parameterType="Integer" resultType="com.jwj.dto.BfileDto">
 			SELECT * FROM BF WHERE BF_BNUM = #{bnum} 
 		</select>
+		
+		<select id="getOriName" parameterType="String" resultType="String">
+			SELECT BF_ORINAME FROM BF
+			WHERE BF_SYSNAME=#{sysFileName}
+		</select>
 </mapper>
 
 
