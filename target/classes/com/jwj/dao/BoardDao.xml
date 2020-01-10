@@ -28,7 +28,7 @@
 	<!-- parameterType bnum이라는 integer가 들어옴 - 생략 가능!! 위에는 생략 가능-->
 		<!--  <![CDATA[ 를 안써도 되는 이유..?? 생각해보기-->
 			SELECT * FROM BLIST_1
-			WHERE BNUM=#{bnum}
+				WHERE BNUM=#{bnum}
 	</select>
 	<select id="getBoardCount" resultType="Integer" >
 			SELECT COUNT(*) FROM BLIST_1
@@ -63,6 +63,45 @@
 			SELECT BF_ORINAME FROM BF
 			WHERE BF_SYSNAME=#{sysFileName}
 		</select>
+		
+		<update id = "updateBoard" parameterType ="com.jwj.dto.BoardDto">
+			UPDATE B SET B_TITLE=#{btitle},B_CONTENTS=#{bcontents},B_DATE=sysdate
+			WHERE B_NUM=#{bnum}
+		</update>
+		
+		<select id="getReplyList" parameterType="Integer" resultType="com.jwj.dto.ReplyDto">
+			SELECT * FROM RLIST 
+			WHERE R_BNUM=#{bnum}
+		</select>
+		
+		<insert id="replyInsert" parameterType="com.jwj.dto.ReplyDto">
+			INSERT INTO R 
+			VALUES(REPLY_SEQ.NEXTVAL, #{r_bnum}, #{r_contents}, #{r_id}, DEFAULT)
+		</insert>	
+		
+		
+		<update id="upView" parameterType="Integer" >
+				UPDATE B SET B_VIEWS=B_VIEWS+1 
+				WHERE B_NUM=#{bnum}
+		</update>	
+		
+		<delete id="delBoardFile" parameterType="Integer">
+				DELETE FROM BF
+				WHERE BF_BNUM=#{bnum}
+		</delete>
+		
+		<delete id="delBoardReply" parameterType="Integer">
+				DELETE FROM R
+				WHERE R_BNUM=#{bnum}
+		</delete>
+		
+		<delete id="delBoardContents" parameterType="Integer">
+				DELETE FROM B
+				WHERE B_NUM=#{bnum}
+		</delete>
+		
+		
+
 </mapper>
 
 

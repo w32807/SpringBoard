@@ -39,10 +39,16 @@
 	<center>
 		<h3>게시판 리스트</h3><hr>
 		<div style="width: 600px; ">
+		
 			<div align="right">
-					<a href = "../logout">로그아웃</a>
-					<!-- .logout과 ../logout 의 차이는? 상위 몇번째로 올라가니?-->
+					<a href = "../updateMember" style="text-decoration:none">회원 정보 수정</a>
+					<!-- 현재는 /를 기준으로 http://localhost/memberboard/board/list 이다. 
+							가고 싶은 곳은 http://localhost/memberboard/updateMember이므로 .이 두개-->
+					<a href = "../logout" style="text-decoration:none">로그아웃</a>
+					<!-- http://localhost/memberboard/board/list 이고,
+							가고 싶은 곳은 http://localhost/memberboard/logout 이므로 . 이 두개-->
 			</div>
+			
 			<div align="left">
 					<table>
 						<tr height="30">
@@ -89,6 +95,7 @@
 			${paging}
 		</div>
 		<p>
+		
 		<button onclick="location.href='./writeFrm'">글쓰기</button>
 		</p>
 		</div>

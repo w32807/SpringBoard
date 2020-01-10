@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.jwj.dto.BfileDto;
 import com.jwj.dto.BoardDto;
+import com.jwj.dto.ReplyDto;
 
 //경로 : src/main/java/com.jwj.dao/BoardDao.java
 public interface BoardDao {
@@ -33,6 +34,23 @@ public interface BoardDao {
 	public String getOriName(String sysFileName);
 	//다운로드를 위한 original Name을 얻어오기 위한 메소드
 	// 겹치지 않는 sysFileName으로 original name을 찾아온다.
+	
+	public boolean updateBoard(BoardDto board);
+	//board의 내용을 업데이트하고, 다시 그것을 가져와 화면에 나타낼 예정
+	
+	public List<ReplyDto> getReplyList(Integer bnum);
+	//이미 작성 된 댓글을 List로 가져오자!
+	
+	public boolean replyInsert(ReplyDto reply);
+	//댓글을 넣자
+	
+	public boolean upView(Integer bnum);
+	//조회수를 늘려주자
+	public boolean delBoardFile(int bnum);
+	
+	public boolean delBoardReply(int bnum);
+	
+	public boolean delBoardContents(int bnum);
 }
 
 

@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">		
@@ -27,6 +29,17 @@
 			<property name="dataSource" ref="dataSource"></property>
 			<!--  sqlSessionFactory 라는 이름으로 SqlSessionFactoryBean타입의 인스턴스를 만들고, 그 안에 dataSource를 주입!-->
 		</bean>
+		
+		<!-- transaction을 위한 bean 생성 -->
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+		
+		<tx:annotation-driven/><!-- transaction annotation으로 트랙잭션을 처리하겠다. -->
+		
+		
+		
+		
 		<!-- Namespaces에서 context와 mybatis를 체크! -->
 		<mybatis-spring:scan base-package="com.jwj.dao"/>
 		<!-- interface와 dao가 있는 패키지가 서로 다르지만 이름이 같기에 같이 끌어옴

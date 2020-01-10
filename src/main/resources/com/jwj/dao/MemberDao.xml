@@ -14,8 +14,18 @@
 	<select id="getMemberInfo" parameterType="String" resultType="com.jwj.dto.MemberDto">
 		SELECT * FROM MINFO WHERE M_ID=#{id}<!-- 기존의 정보들을 모아 따로 보여주고 싶은 경우는 뷰를 만들면 편하다. -->
 	</select>
+	
+	<select id="getMemberInfo2" parameterType="String" resultType="com.jwj.dto.MemberDto">
+		SELECT * FROM M WHERE M_ID=#{id}
+	</select>
 
-
+	<update id="memberUpdate" parameterType="com.jwj.dto.MemberDto">
+		UPDATE M 
+		SET M_ID=#{m_id},M_PWD=#{m_pwd},M_NAME=#{m_name},M_BIRTH=#{m_birth},M_ADDR=#{m_addr},M_PHONE=#{m_phone},
+							M_POINT=#{m_point}
+		WHERE M_ID=#{m_id}
+	</update>
+		
 </mapper>
 
 

@@ -1,5 +1,7 @@
 package com.jwj.service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +55,6 @@ public class MemberService {
 					} catch (Exception e) {
 						view = "redirect:joinFrm";//실패하면 다시 회원가입 페이지로 돌아감
 						rttr.addFlashAttribute("check", "fail");
-
 					}
 				mav.setViewName(view);//데이터를 담지 않는다면, 굳이 ModelAndView를 쓰지 않고 String을 반환해도 된다.
 				return mav;
@@ -91,6 +92,59 @@ public class MemberService {
 				mav.setViewName(view);
 				return mav;
 			}
+
+
+			public ModelAndView getMember() {
+				mav = new ModelAndView();
+				MemberDto sessionMember = (MemberDto) session.getAttribute("mb");
+				String getSessionId = sessionMember.getM_id();
+				MemberDto member = mDao.getMemberInfo2(getSessionId);
+				mav.addObject("member",member);
+				mav.setViewName("updateMember");
+				
+				return mav;
+			}
+
+
+			public String userUpdate(MemberDto member, RedirectAttributes rttr) {
+				String view = null;
+				BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+				
+				String encPwd = pwdEncoder.encode(member.getM_pwd());
+				member.setM_pwd(encPwd);
+				try {
+					mDao.memberUpdate(member);
+					view= "redirect:board/list";
+					rttr.addFlashAttribute("check", "정보 수정 성공!");
+				} catch (Exception e) {
+					view = "redirect:updateMember";
+					rttr.addFlashAttribute("check", "fail");
+				}
+					mav.setViewName(view);
+				return view;
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			

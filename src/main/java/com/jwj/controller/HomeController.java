@@ -71,5 +71,25 @@ public class HomeController {
 		return "home";
 	}
 	
+	@GetMapping("updateMember")//회원 정보 수정 버튼을 누르면 여기로 옴
+	public ModelAndView getMember() {
+		//아이디를 가지고 회원 정보를 가져 온 뒤, 다시 수정 페이지에 넘겨준다.
+				
+		return mserb.getMember();
+	}
+	
+	@PostMapping("userUpdate")
+	public String userUpdate(MemberDto member, RedirectAttributes rttr) {
+		String view = mserb.userUpdate(member,rttr);
+		
+		return view;
+	}
+	
+	
+	
+	
+	
+
+	
 	
 }
