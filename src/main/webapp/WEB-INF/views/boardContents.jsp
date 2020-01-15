@@ -154,6 +154,7 @@
 
 		function confirmDelete(bnum) {
 				theForm=document.delBoard;
+				//document.객체의 이름으로 저장 하나의 태그를 변수로 저장
 				var chk = confirm("정말 삭제하시겠습니까?");
 				if (chk) {
 					return theForm.submit();
