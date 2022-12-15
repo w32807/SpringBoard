@@ -9,7 +9,7 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.8</java-version><!-- 수정 -->
-		<org.springframework-version>5.2.1.RELEASE</org.springframework-version><!-- 수정 -->
+		<org.springframework-version>5.2.20.RELEASE</org.springframework-version><!-- 수정 -->
 		<org.aspectj-version>1.9.4</org.aspectj-version><!-- 수정 -->
 		<org.slf4j-version>1.7.25</org.slf4j-version><!-- 수정 -->
 	</properties>
